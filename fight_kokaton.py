@@ -142,9 +142,9 @@ class Bomb:
 
 class Score(): #Scoreクラス
     def __init__(self): #イニシャライザ
-        self.fonto = pg.font.SysFont("hgp創英角ﾎﾟｯﾌﾟ体", 30)
-        self.value = 0
-        self.img = self.fonto.render(f"score:{self.value}", True, (0, 0, 225))
+        self.fonto = pg.font.SysFont("hgp創英角ﾎﾟｯﾌﾟ体", 30) #フォントの表記
+        self.value = 0 #爆弾を倒した数の初期値
+        self.img = self.fonto.render(f"score:{self.value}", True, (0, 0, 225)) #文字や色の表記
         self.rct = self.img.get_rect()
         
     
