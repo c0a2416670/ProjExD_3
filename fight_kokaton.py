@@ -160,6 +160,7 @@ def main():
     bird = Bird((300, 200))
     beam = None
     score = Score()
+    beams = [] #空のリストの作成
     # bomb = Bomb((255, 0, 0), 10)
     bombs = []
     for i in range(NUM_OF_BOMBS):
@@ -172,7 +173,8 @@ def main():
                 return
             if event.type == pg.KEYDOWN and event.key == pg.K_SPACE:
                 # スペースキー押下でBeamクラスのインスタンス生成
-                beam = Beam(bird)            
+                beam = Beam(bird)
+                beams.append(beam)         
         screen.blit(bg_img, [0, 0])
         
         # if bomb is not None:
@@ -194,8 +196,13 @@ def main():
                     beam = None #ビームを消す
                     bombs[j] = None #ボムを消す
                     bird.change_img(6, screen) #喜びエフェクト
-                    score.value += 1
+                    score.value += 1 #スコアの表示
             bombs = [bomb for bomb in bombs if bomb is not None]
+        
+        for i,beam in enumerate(beams):
+            if bomb is not None:
+                if bomb.rct.colliderect(beam.rct):
+                    beams = [beam for beam in beam if beam is None]
 
         # if bomb is not None:
         #     score = 0
@@ -205,12 +212,12 @@ def main():
 
         key_lst = pg.key.get_pressed()
         bird.update(key_lst, screen)
-        if beam is not None:
+        for beam in beams  :
             beam.update(screen)
         # if bomb is not None:
         for bomb in bombs:
             bomb.update(screen)
-        score.update(screen)
+        score.update(screen) #画面にスコア表示
         pg.display.update()
         tmr += 1
         clock.tick(50)
